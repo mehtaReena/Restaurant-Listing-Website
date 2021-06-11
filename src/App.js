@@ -1,9 +1,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
-import TableData from './TableData'
+import TableData from './components/TableData'
 import './styles.css';
-import Pagination from './Pagination';
+import Pagination from './components/Pagination';
 
 function App() {
   let [loading, setLoading] = useState(true)
@@ -47,22 +47,12 @@ function App() {
   const updateInput = async () => {
     let input = inputRef.current.value
     let option = selectRef.current.value;
+    console.log(option)
     let filtered = [];
-    if (option === 'City') {
+
       filtered = data.filter(item => {
-        return item.city.toLowerCase().includes(input.toLowerCase())
+        return item.genre.toLowerCase().includes(option.toLowerCase())
       })
-    }
-    else if (option === 'Name') {
-      filtered = data.filter(item => {
-        return item.name.toLowerCase().includes(input.toLowerCase())
-      })
-    }
-    else if (option === 'Geners') {
-      filtered = data.filter(item => {
-        return item.genre.toLowerCase().includes(input.toLowerCase())
-      })
-    }
 
 
     setSearckKey(input);
@@ -109,11 +99,16 @@ function App() {
           </div>
 
           <div className="serachBox">
-            <select onChange={changeHandel} ref={selectRef}>
-              <option value="Name">Name</option>
-              <option value="City">City</option>
-              <option value="Geners">Geners</option>
-              <option value="State">State</option>
+            <select onChange={updateInput} ref={selectRef}>
+              <option value="all">ALL</option>
+              <option value="steak">Steak</option>
+              <option value="seafood">Seafood</option>
+              <option value="Coffee">Coffee</option>
+              <option value="Pasta">Pasta</option>
+              <option value="Italian">Italian</option>
+              <option value="Grill">Grill</option>
+              <option value="Bakery">Bakery</option>
+              <option value="Sushi">Sushi</option>
             </select>
 
             <input

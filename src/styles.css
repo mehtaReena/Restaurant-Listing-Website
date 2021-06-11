@@ -14,6 +14,13 @@ body {
 }
 h2{
     text-align: center;
+    font-family:  'Roboto Slab'
+}
+h3{
+    color: green;
+    font-family:  'Roboto Slab';
+    font-size: 18px;
+    font-weight: 900;
 }
 .container{
     display: flex;
