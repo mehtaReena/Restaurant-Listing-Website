@@ -23,7 +23,7 @@ h2{
 
 }
 
-#users {
+#rest {
     font-family:  Arial, Helvetica, sans-serif;
     border: 3px solid #ddd;
     width: 100%;
@@ -31,7 +31,7 @@ h2{
 
   }
 
-  #users td, #students th {
+  #rest td, #students th {
     border: 2px solid #ddd;
     padding: 5px;
     text-align: start;
@@ -41,10 +41,10 @@ h2{
 
  /*  #users tr:nth-child(even){background-color: #f2f2f2;} */
 
-  #users tr:hover {background-color: #ddd;
+  #rest tr:hover {background-color: #ddd;
     cursor: pointer;}
 
-  #users th {
+  #rest th {
     padding: 5px;
     background-color: gray;
     color: white;
@@ -88,5 +88,17 @@ h2{
     width: fit-content;
     width: 300px;
 }
-
+.serachBox{
+    display: flex;
+    flex-direction: row;
+    gap:1rem;
+}
+input[type=text]{
+    width: 80%;
+    height:30px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    padding: 20px;
+  }
 
