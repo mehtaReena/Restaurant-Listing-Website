@@ -52,11 +52,13 @@ function App() {
 
       filtered = data.filter(item => {
         return item.genre.toLowerCase().includes(option.toLowerCase())
+
       })
 
 
     setSearckKey(input);
     setData(filtered);
+    setPage(filtered.length)
   }
 
   useEffect(() => {
@@ -90,11 +92,7 @@ function App() {
               <option value="20">20</option>
             </select>
 
-            <Pagination
-              postsPerPage={page}
-              totalPosts={data.length}
-              paginate={paginate}
-            />
+
 
           </div>
 
@@ -145,8 +143,15 @@ function App() {
             </tbody>
 
           </table>
+          <Pagination
+              postsPerPage={page}
+              totalPosts={data.length}
+              paginate={paginate}
+            />
 
         </div>
+
+
       </div>
 
       )

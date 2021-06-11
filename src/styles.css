@@ -116,6 +116,7 @@ input[type=text]{
       display: flex;
       flex-direction: row;
       gap:2rem
+
   }
   button{
   padding: 5px;
