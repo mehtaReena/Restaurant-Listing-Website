@@ -35,9 +35,9 @@ function App() {
 
   return (
     <div className='container'>
-      <div className='userinfo-wrapper'>
+      <div className='restinfo-wrapper'>
 
-        <h3></h3>
+        <h2>List of Restaurant</h2>
         {loading && <h3> Fetching...</h3>}
 
         <table id='users'>
