@@ -46,8 +46,7 @@ h3{
     padding: 5px;
     text-align: start;
     height: 35px;
-    width: fit-content;
-
+    width:max-content;
   }
 
  /*  #users tr:nth-child(even){background-color: #f2f2f2;} */
@@ -59,6 +58,12 @@ h3{
     padding: 5px;
     background-color: gray;
     color: white;
+    text-align: start;
+
+  }
+  #rest td {
+    padding: 5px;
+    width:fit-content;
     text-align: start;
 
   }
@@ -122,17 +127,23 @@ input[type=text]{
   padding: 5px;
   border-radius: 7px;
   width: 150px;
+  font-size: 18px;
   }
+
+  button:active{
+    border: 3px solid #0d60cc;
+}
   input:focus{
     outline: none;
     border: 2px solid #0d60cc;
 }
+a {
+    text-decoration: none;
+    display: inline-block;
+  }
 
-.page-item{
-    list-style: none;
+  button:hover {
+    background-color: #ddd;
+    color: black;
+  }
 
-
-}
-.pageBox{
-    padding: 5px;
-}

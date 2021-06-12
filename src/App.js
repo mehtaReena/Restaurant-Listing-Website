@@ -121,9 +121,9 @@ function App() {
         <h2>List of Restaurant</h2>
         {loading && <h3> Fetching...</h3>}
 
-        <div className="row">
-          <button onClick={() => clickhandler(0)}>Prev</button>
-          <button onClick={() => clickhandler(1)}>Next</button>
+        <div className="pagination">
+          <button onClick={() => clickhandler(0)}><a href=".#" class="previous">&laquo; Previous</a></button>
+          <button onClick={() => clickhandler(1)}><a href=".#" class="next">Next &raquo;</a></button>
         </div>
 
 
