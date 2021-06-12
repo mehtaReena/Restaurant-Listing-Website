@@ -3,6 +3,7 @@ function TableData(props) {
 
     return (
         <tr key={props.id}>
+             <td>{props.id}</td>
             <td>{props.name}</td>
             <td>{props.city}</td>
             <td>{props.state}</td>

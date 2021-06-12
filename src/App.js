@@ -1,21 +1,24 @@
-
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import TableData from './components/TableData'
 import './styles.css';
-import Pagination from './components/Pagination';
+
 
 function App() {
   let [loading, setLoading] = useState(true)
   let [data, setData] = useState([])
-  let [searcdata, setSearchData] = useState([])
+  let [searchData, setSearchData] = useState([])
   let [option, setOption] = useState('');
   let [page, setPage] = useState(5)
   let [searkKey, setSearckKey] = useState('')
   let inputRef = useRef();
   let selectRef = useRef();
   let pageRef = useRef();
-  const [currentPage, setCurrentPage] = useState(1);
+
+
+  const [start, setStart] = useState(0);
+  const [end, setEnd] = useState(10);
+
 
 
 
@@ -41,23 +44,62 @@ function App() {
 
   const changeHandel = () => {
     setOption(selectRef.current.value)
-    setPage(pageRef.current.value)
+
   }
 
+  const clickhandler = (option) => {
+    setSearchData([]);
+    inputRef.current.value = '';
+
+    if (option) {
+      let count = data.length;
+      if (start + page >= count) return;
+      setStart(start + page);
+      setEnd(Math.min(end + page, count));
+    } else {
+      if (start === 0) return;
+      setStart(start - page);
+      setEnd(start);
+    }
+  };
+
   const updateInput = async () => {
+
     let input = inputRef.current.value
     let option = selectRef.current.value;
     console.log(option)
     let filtered = [];
 
+
+    if (option === 'Name') {
       filtered = data.filter(item => {
-        return item.genre.toLowerCase().includes(option.toLowerCase())
+        return item.name.toLowerCase().includes(input.toLowerCase())
 
       })
+    }
+    else if (option === 'City') {
+      filtered = data.filter(item => {
+        return item.city.toLowerCase().includes(input.toLowerCase())
+
+      })
+    }
+    else if (option === 'State') {
+      filtered = data.filter(item => {
+        return item.state.toLowerCase().includes(input.toLowerCase())
+
+      })
+    }
+    else if (option === 'Geners') {
+      filtered = data.filter(item => {
+        return item.genre.toLowerCase().includes(input.toLowerCase())
+
+      })
+    }
 
 
+    console.log(filtered)
     setSearckKey(input);
-    setData(filtered);
+    setSearchData(filtered);
     setPage(filtered.length)
   }
 
@@ -69,12 +111,7 @@ function App() {
 
 
 
-  const indexOfLastPost = currentPage * page;
-  const indexOfFirstPost = indexOfLastPost - page;
-  const currentPosts = data.slice(indexOfFirstPost, indexOfLastPost);
 
-  // Change page
-  const paginate = pageNumber => setCurrentPage(pageNumber);
 
 
   return (
@@ -83,80 +120,88 @@ function App() {
 
         <h2>List of Restaurant</h2>
         {loading && <h3> Fetching...</h3>}
-        <div className="pagination" >
 
-            <select className ="pageBox"onChange={changeHandel} ref={pageRef}>
-              <option value="5" >5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-              <option value="20">20</option>
-            </select>
+        <div className="row">
+          <button onClick={() => clickhandler(0)}>Prev</button>
+          <button onClick={() => clickhandler(1)}>Next</button>
+        </div>
 
 
+        <div className="serachBox">
+          <select onChange={changeHandel} ref={selectRef}>
 
-          </div>
+            <option value="Name">Name</option>
+            <option value="City">City</option>
+            <option value="State">State</option>
+            <option value="Geners">Geners</option>
 
-          <div className="serachBox">
-            <select onChange={updateInput} ref={selectRef}>
-              <option value="all">ALL</option>
-              <option value="steak">Steak</option>
-              <option value="seafood">Seafood</option>
-              <option value="Coffee">Coffee</option>
-              <option value="Pasta">Pasta</option>
-              <option value="Italian">Italian</option>
-              <option value="Grill">Grill</option>
-              <option value="Bakery">Bakery</option>
-              <option value="Sushi">Sushi</option>
-            </select>
 
-            <input
-              type="text"
-              ref={inputRef}
-              placeholder="searching ..."
-              onChange={updateInput}
-            />
+          </select>
 
-          </div>
+          <input
+            type="text"
+            ref={inputRef}
+            placeholder="searching ..."
+            onChange={updateInput}
+          />
 
-          <table id='rest'>
-            <tr>
-              <th>Name</th>
-              <th>City</th>
-              <th>State</th>
-              <th>Phone Number</th>
-              <th>Geners</th>
-            </tr>
-            <tbody>
-              {
-                currentPosts.map((item) =>
+        </div>
+
+        <table id='rest'>
+          <tr>
+            <th>Sno:</th>
+            <th>Name</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Phone Number</th>
+            <th>Geners</th>
+          </tr>
+          <tbody>
+            {
+              searchData.length > 0 ?
+                searchData.map((item ,idx) =>
                   <TableData
+                    id={idx}
                     name={item.name}
                     city={item.city}
                     state={item.state}
                     telephone={item.telephone}
                     genre={item.genre}
                   ></TableData>
-
                 )
-              }
 
-            </tbody>
+                : data.map((item ,idx) => {
+                  return (
+                    <TableData
+                      id={idx}
+                      name={item.name}
+                      city={item.city}
+                      state={item.state}
+                      telephone={item.telephone}
+                      genre={item.genre}
+                    ></TableData>
 
-          </table>
-          <Pagination
+                  )
+                }).filter((data, index) => index >= start && index < end)
+            }
+
+          </tbody>
+
+        </table>
+        {/*  <Pagination
               postsPerPage={page}
               totalPosts={data.length}
               paginate={paginate}
             />
-
-        </div>
-
-
+ */}
       </div>
 
-      )
+
+    </div>
+
+  )
 
 }
 
 
-      export default App;
+export default App;
