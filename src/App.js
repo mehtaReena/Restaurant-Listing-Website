@@ -51,7 +51,7 @@ function App() {
     setSearchData([]);
     inputRef.current.value = '';
 
-    if (option) {
+    if (option==="next") {
       let count = data.length;
       if (start + page >= count) return;
       setStart(start + page);
@@ -122,8 +122,8 @@ function App() {
         {loading && <h3> Fetching...</h3>}
 
         <div className="pagination">
-          <button onClick={() => clickhandler(0)}><a href=".#" class="previous">&laquo; Previous</a></button>
-          <button onClick={() => clickhandler(1)}><a href=".#" class="next">Next &raquo;</a></button>
+          <button onClick={() => clickhandler("previous")}><a href=".#" class="previous">&laquo; Previous</a></button>
+          <button onClick={() => clickhandler("next")}><a href=".#" class="next">Next &raquo;</a></button>
         </div>
 
 
