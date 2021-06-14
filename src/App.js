@@ -48,10 +48,11 @@ function App() {
   }
 
   const clickhandler = (option) => {
+    console.log(option)
     setSearchData([]);
     inputRef.current.value = '';
 
-    if (option==="next") {
+    if (option) {
       let count = data.length;
       if (start + page >= count) return;
       setStart(start + page);
@@ -63,42 +64,18 @@ function App() {
     }
   };
 
-  const updateInput = async () => {
 
-    let input = inputRef.current.value
-    let option = selectRef.current.value;
-    console.log(option)
+
+  const SearchHandler = async () => {
+    let searchText = inputRef.current.value
     let filtered = [];
-
-
-    if (option === 'Name') {
-      filtered = data.filter(item => {
-        return item.name.toLowerCase().includes(input.toLowerCase())
-
-      })
-    }
-    else if (option === 'City') {
-      filtered = data.filter(item => {
-        return item.city.toLowerCase().includes(input.toLowerCase())
-
-      })
-    }
-    else if (option === 'State') {
-      filtered = data.filter(item => {
-        return item.state.toLowerCase().includes(input.toLowerCase())
-
-      })
-    }
-    else if (option === 'Geners') {
-      filtered = data.filter(item => {
-        return item.genre.toLowerCase().includes(input.toLowerCase())
-
-      })
-    }
-
-
+    filtered = data.filter(
+      (item) =>
+        item.name.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.city.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.genre.toLowerCase().includes(searchText.toLowerCase())
+    );
     console.log(filtered)
-    setSearckKey(input);
     setSearchData(filtered);
     setPage(filtered.length)
   }
@@ -109,6 +86,15 @@ function App() {
   }, [])
 
 
+   const filter = ()=>{
+   let filterText= selectRef.current.value;
+    let filtered = [];
+    filtered = data.filter(
+      (item) =>
+        item.genre.toLowerCase().includes(filterText.toLowerCase())
+    );
+    setSearchData(filtered);
+   }
 
 
 
@@ -122,18 +108,25 @@ function App() {
         {loading && <h3> Fetching...</h3>}
 
         <div className="pagination">
-          <button onClick={() => clickhandler("previous")}><a href=".#" class="previous">&laquo; Previous</a></button>
-          <button onClick={() => clickhandler("next")}><a href=".#" class="next">Next &raquo;</a></button>
+          <button onClick={() => clickhandler(0)}><a href=".#" class="previous">&laquo; Previous</a></button>
+          <button onClick={() => clickhandler(1)}><a href=".#" class="next">Next &raquo;</a></button>
         </div>
 
 
         <div className="serachBox">
-          <select onChange={changeHandel} ref={selectRef}>
+          <select onChange={filter} ref={selectRef}>
 
-            <option value="Name">Name</option>
-            <option value="City">City</option>
-            <option value="State">State</option>
-            <option value="Geners">Geners</option>
+            <option value="all">All</option>
+            <option value="seafood">Seafood</option>
+            <option value="steak">Steak</option>
+            <option value="american">American</option>
+            <option value="french,">French,</option>
+            <option value="italian,">Italian,</option>
+            <option value="vegetarian">Vegetarian</option>
+            <option value="european">European</option>
+            <option value="Japanese">Japanese</option>
+            <option value="pasta">Pasta</option>
+            <option value="Continenta">Continenta</option>
 
 
           </select>
@@ -142,7 +135,7 @@ function App() {
             type="text"
             ref={inputRef}
             placeholder="searching ..."
-            onChange={updateInput}
+            onChange={SearchHandler}
           />
 
         </div>
@@ -159,7 +152,7 @@ function App() {
           <tbody>
             {
               searchData.length > 0 ?
-                searchData.map((item ,idx) =>
+                searchData.map((item, idx) =>
                   <TableData
                     id={idx}
                     name={item.name}
@@ -170,7 +163,7 @@ function App() {
                   ></TableData>
                 )
 
-                : data.map((item ,idx) => {
+                : data.map((item, idx) => {
                   return (
                     <TableData
                       id={idx}
