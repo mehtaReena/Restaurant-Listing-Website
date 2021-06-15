@@ -8,12 +8,14 @@ function App() {
   let [loading, setLoading] = useState(true)
   let [data, setData] = useState([])
   let [searchData, setSearchData] = useState([])
+  let [filterData, setFilterData] = useState([])
   let [option, setOption] = useState('');
-  let [page, setPage] = useState(5)
+  let [page, setPage] = useState(7)
   let [searkKey, setSearckKey] = useState('')
   let inputRef = useRef();
   let selectRef = useRef();
   let pageRef = useRef();
+  let [citySort, setCitySort] = useState(true)
 
 
   const [start, setStart] = useState(0);
@@ -37,15 +39,18 @@ function App() {
     let data = await response.json()
     // console.log(data)
     setData(data)
+    let count = data.length;
+    setFilterData(data.filter((data, index) => index >= start && index < end))
+    setStart(start + page);
+    setEnd(Math.min(end + page, count));
+
     setLoading(false)
-  }
-
-
-
-  const changeHandel = () => {
-    setOption(selectRef.current.value)
 
   }
+
+
+
+
 
   const clickhandler = (option) => {
     console.log(option)
@@ -62,11 +67,14 @@ function App() {
       setStart(start - page);
       setEnd(start);
     }
+
+    setFilterData(data.filter((data, index) => index >= start && index < end))
   };
 
 
 
   const SearchHandler = async () => {
+    if (inputRef.current.value){
     let searchText = inputRef.current.value
     let filtered = [];
     filtered = data.filter(
@@ -75,26 +83,77 @@ function App() {
         item.city.toLowerCase().includes(searchText.toLowerCase()) ||
         item.genre.toLowerCase().includes(searchText.toLowerCase())
     );
+
     console.log(filtered)
     setSearchData(filtered);
     setPage(filtered.length)
-  }
+    }
+    else{
+      setSearchData([]);
+      setFilterData(data.filter((data, index) => index >= start && index < end))
+      setStart(start + page);
+      // (Math.min(end + page, count));
+    }
+
+    }
+
+
 
   useEffect(() => {
-    let intervalId = setInterval(() => { getData() }, 3000)
-    return () => clearInterval(intervalId)
+    getData()
+
   }, [])
 
 
-   const filter = ()=>{
-   let filterText= selectRef.current.value;
+  const filter = () => {
+    let filterText = selectRef.current.value;
     let filtered = [];
     filtered = data.filter(
       (item) =>
         item.genre.toLowerCase().includes(filterText.toLowerCase())
     );
-    setSearchData(filtered);
-   }
+    setFilterData(filtered);
+  }
+
+  const sortByCity = () => {
+
+    if (citySort) {
+      function compare(a, b) {
+        if (a.city < b.city) {
+          return -1;
+        }
+        if (a.city > b.city) {
+          return 1;
+        }
+        return 0;
+      }
+      filterData.sort( compare );
+    }
+    else {
+
+      function compare(a, b) {
+        if (a.city > b.city) {
+          return -1;
+        }
+        if (a.city > b.city) {
+          return 1;
+        }
+        return 0;
+      }
+      filterData.sort( compare );
+
+    }
+
+    setFilterData(filterData)
+    console.log(data)
+    setCitySort(pre => !pre)
+
+
+  }
+  const sortByName = () => {
+
+  }
+
 
 
 
@@ -142,9 +201,8 @@ function App() {
 
         <table id='rest'>
           <tr>
-            <th>Sno:</th>
-            <th>Name</th>
-            <th>City</th>
+            <th onClick={sortByName}>Name ⬆⬇</th>
+            <th onClick={sortByCity}>City ⬆⬇</th>
             <th>State</th>
             <th>Phone Number</th>
             <th>Geners</th>
@@ -163,7 +221,7 @@ function App() {
                   ></TableData>
                 )
 
-                : data.map((item, idx) => {
+                : filterData.map((item, idx) => {
                   return (
                     <TableData
                       id={idx}
@@ -175,7 +233,7 @@ function App() {
                     ></TableData>
 
                   )
-                }).filter((data, index) => index >= start && index < end)
+                })
             }
 
           </tbody>
