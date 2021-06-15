@@ -9,14 +9,10 @@ function App() {
   let [data, setData] = useState([])
   let [searchData, setSearchData] = useState([])
   let [filterData, setFilterData] = useState([])
-  let [option, setOption] = useState('');
-  let [page, setPage] = useState(7)
-  let [searkKey, setSearckKey] = useState('')
+  let [page, setPage] = useState(7);
   let inputRef = useRef();
   let selectRef = useRef();
-  let pageRef = useRef();
   let [citySort, setCitySort] = useState(true)
-
 
   const [start, setStart] = useState(0);
   const [end, setEnd] = useState(10);
@@ -24,7 +20,7 @@ function App() {
 
 
 
-  const API_key = "Bearer iqi509189dxznal;,ggi";
+  // const API_key = "Bearer iqi509189dxznal;,ggi";
   const REQUESTED_URL = "http://128.199.195.196:3001/"
 
   async function getData() {
@@ -100,8 +96,8 @@ function App() {
 
 
   useEffect(() => {
-    getData()
-
+    getData();
+     // eslint-disable-next-line
   }, [])
 
 
