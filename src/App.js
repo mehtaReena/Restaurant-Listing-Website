@@ -13,7 +13,7 @@ function App() {
   let inputRef = useRef();
   let selectRef = useRef();
   let [citySort, setCitySort] = useState(true)
-
+  let [nameSort, setNameSort] = useState(true)
   const [start, setStart] = useState(0);
   const [end, setEnd] = useState(10);
 
@@ -147,6 +147,37 @@ function App() {
 
   }
   const sortByName = () => {
+
+    if (nameSort) {
+      function compare(a, b) {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      }
+      filterData.sort( compare );
+    }
+    else {
+
+      function compare(a, b) {
+        if (a.name > b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      }
+      filterData.sort( compare );
+
+    }
+
+    setFilterData(filterData)
+    console.log(data)
+    setNameSort(pre => !pre)
 
   }
 
